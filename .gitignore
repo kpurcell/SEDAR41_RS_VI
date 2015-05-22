@@ -10,6 +10,25 @@
 # RStudio files
 .Rproj.user/
 
+
+#############
+## Latex compile files
+#############
+*.aux
+*.bbl
+*.blg
+cache/*
+figure/*
+*.log
+*.pdf
+*.gz
+
+# Pandoc products
+*.docx
+*.Rhistory
+*.RData
+
+
 # =========================
 # Operating System Files
 # =========================
