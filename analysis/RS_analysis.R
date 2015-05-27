@@ -17,14 +17,14 @@ library(stargazer)
 # Read in Red Snapper Data
 raw=read.csv("C:\\Users\\Kevin.Purcell\\Documents\\GitHub\\SEDAR41_RS_VI\\data\\redsnapper_SEDAR41_2015.csv")
 names(raw)
-
+str(raw)
 
 
 # Full data subsetting: 
 rs<-raw                                                #protect the original data
-#rs <- rs[rs$Station_Type!="Recon",]                   # remove recon stations
+test <- rs[rs$Station_Type!="Recon",]                   # remove recon stations
 rs <- subset(rs, rs$Station_Type !="Recon")
-#rs <- rs[rs$A.Video.Readable == "Yes",]               # remove invalid videos
+test <- rs[rs$A.Video.Readable == "Yes",]               # remove invalid videos
 rs <- subset(rs, rs$A.Video.Readable == "Yes")
 rs <- subset(rs, rs$Start_Depth > 0)                   # remove NA in depth
 rs <- subset(rs, rs$Start_Depth < 100)                 # remove < 100 m deep
@@ -38,7 +38,7 @@ rs <- subset(rs, rs$Biotic_Density !='Unknown')        # remove biotic density w
 
 #make the Substrate_Cat
 summary(rs$Substrate)
-length(unique(rs$Substrate))                           #89 unique values
+length(unique(rs$Substrate))                           #90 unique values
 temp=rep(NA,length(rs$Substrate))
 temp[rs$Substrate=='Unknown']='Unknown'
 rs$Substrate[rs$Substrate=='Unknown']=NA
@@ -55,7 +55,7 @@ summary(rs$Substrate_Cat)
 
 #make the Biotic_Density_Cat
 summary(rs$Biotic_Density)
-length(unique(rs$Biotic_Density))                     # 78 unique values
+length(unique(rs$Biotic_Density))                     # 82 unique values
 temp=rep(NA,length(rs$Biotic_Density))
 temp[rs$Biotic_Density=='Unknown']='Unknown'
 rs$Biotic_Density[rs$Biotic_Density=='Unknown']=NA
@@ -74,7 +74,7 @@ summary(rs$Biotic_Density_Cat)
 
 
 #Eliminate unnecessary columns
-dat=subset(rs,select=c(MeanCount,No.Readable.Frames,Year,Turbidity,Current_Direction,
+dat <- subset(rs,select=c(MeanCount,No.Readable.Frames,Year,Turbidity,Current_Direction,
                        Current_Magnitude,Substrate_Cat,Relief,Size,Biotic_Density_Cat,
                        Biotic_Type,Biotic_Height,Start_Depth,Julian,Start_Latitude,
                        LastOfTemp,TOD))
@@ -92,31 +92,31 @@ dat$MeanCount=sumcount
 names(dat)=c('SumCount','frames','y','wc','cd','cm','sc','sr','ss','bd','bt','bh','d','t','lat','temp','tod')#;head(dat)
 shortnames=names(dat)
 
-# #create variable descriptions
-# description <- c("Total count (MeanCount * No.Readable.Frames)",
-#                  "No.Readable.Frames",
-#                  "Survey Year",
-#                  "measure of Turbidity (how, units?)",
-#                  "direction of current in reference to camera",
-#                  "categorical rating for current magnitude",
-#                  "categorical rating for bottom substrate",
-#                  "categorical description of bottom relief",
-#                  "Substrate size",
-#                  "biotic density?",
-#                  "biotic type",
-#                  "biotic height",
-#                  "Depth (m)",
-#                  "Julian day of year?",
-#                  "Latitude",
-#                  "Bottom Temperature",
-#                  "Time of day")
-# 
-# metadataBound <- cbind(shortnames, description)
-# colnames(metadataBound) <- c("Parameter", "Description")
-# metadataTable <- xtable::xtable(metadataBound, 
-#                                 align="ccl",
-#                                 caption="Data variables and description") 
-# Metadata <- xtable::print.xtable(metadataTable, type="latex")
+#create variable descriptions
+description <- c("Total count (MeanCount * No.Readable.Frames)",
+                 "No.Readable.Frames",
+                 "Survey Year",
+                 "measure of Turbidity (how, units?)",
+                 "direction of current in reference to camera",
+                 "categorical rating for current magnitude",
+                 "categorical rating for bottom substrate",
+                 "categorical description of bottom relief",
+                 "Substrate size",
+                 "biotic density?",
+                 "biotic type",
+                 "biotic height",
+                 "Depth (m)",
+                 "Julian day of year?",
+                 "Latitude",
+                 "Bottom Temperature",
+                 "Time of day")
+
+metadataBound <- cbind(shortnames, description)
+colnames(metadataBound) <- c("Parameter", "Description")
+metadataTable <- xtable::xtable(metadataBound, 
+                                align="ccl",
+                                caption="Data variables and description") 
+Metadata <- xtable::print.xtable(metadataTable, type= )
 
 
 #replace NA in the cpue with 0
