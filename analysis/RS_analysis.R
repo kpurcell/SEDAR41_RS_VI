@@ -72,61 +72,54 @@ summary(rs$Biotic_Density_Cat)
 
 #rename startTime                   # Left from Lews code base IDK
 
+# make sum count vector
+rs.frames <- rs[,49:89]
+rs$SumCount <- rowSums(rs.frames)
 
 #Eliminate unnecessary columns
-dat <- subset(rs,select=c(MeanCount,No.Readable.Frames,Year,Turbidity,Current_Direction,
+dat <- subset(rs,select=c(SumCount,No.Readable.Frames,Year,Turbidity,Current_Direction,
                        Current_Magnitude,Substrate_Cat,Relief,Size,Biotic_Density_Cat,
                        Biotic_Type,Biotic_Height,Start_Depth,Julian,Start_Latitude,
                        LastOfTemp,TOD))
 
-orgnames=names(dat)
+# # Build Parameter Table
+# orgnames=names(dat)
+# #rename to short names
+# names(dat)=c('SumCount','frames','y','wc','cd','cm','sc','sr','ss','bd','bt','bh','d','t','lat','temp','tod');head(dat)
+# shortnames=names(dat)
+# 
+# #create variable descriptions
+# description <- c("Total count (sum of No.Readable.Frames)",
+#                  "No.Readable.Frames",
+#                  "Survey Year",
+#                  "measure of Turbidity (how, units?)",
+#                  "direction of current in reference to camera",
+#                  "categorical rating for current magnitude",
+#                  "categorical rating for bottom substrate",
+#                  "categorical description of bottom relief",
+#                  "Substrate size",
+#                  "biotic density?",
+#                  "biotic type",
+#                  "biotic height",
+#                  "Depth (m)",
+#                  "Julian day of year?",
+#                  "Latitude",
+#                  "Bottom Temperature",
+#                  "Time of day")
+# 
+# metadataBound <- cbind(shortnames, description)
+# colnames(metadataBound) <- c("Parameter", "Description")
+# metadataTable <- xtable::xtable(metadataBound, 
+#                                 align="ccl",
+#                                 caption="Data variables and description") 
+# Metadata <- xtable::print.xtable(metadataTable, type= "latex" )
 
-
-
-sumcount=round(dat$MeanCount*rs$No.Readable.Frames,0)
-dat$MeanCount=sumcount
-
-
-
-#rename to short names
-names(dat)=c('SumCount','frames','y','wc','cd','cm','sc','sr','ss','bd','bt','bh','d','t','lat','temp','tod')#;head(dat)
-shortnames=names(dat)
-
-#create variable descriptions
-description <- c("Total count (MeanCount * No.Readable.Frames)",
-                 "No.Readable.Frames",
-                 "Survey Year",
-                 "measure of Turbidity (how, units?)",
-                 "direction of current in reference to camera",
-                 "categorical rating for current magnitude",
-                 "categorical rating for bottom substrate",
-                 "categorical description of bottom relief",
-                 "Substrate size",
-                 "biotic density?",
-                 "biotic type",
-                 "biotic height",
-                 "Depth (m)",
-                 "Julian day of year?",
-                 "Latitude",
-                 "Bottom Temperature",
-                 "Time of day")
-
-metadataBound <- cbind(shortnames, description)
-colnames(metadataBound) <- c("Parameter", "Description")
-metadataTable <- xtable::xtable(metadataBound, 
-                                align="ccl",
-                                caption="Data variables and description") 
-Metadata <- xtable::print.xtable(metadataTable, type= )
-
-
-#replace NA in the cpue with 0
-dat$SumCount[is.na(dat$SumCount)]=0
 
 
 # # Table 1 data
-# stargazer(dat, type='text')
-# dat.2010<-subset(dat, dat$y==2010)
-# stargazer(dat.2010, type='text')
+stargazer(dat, type='text')
+dat.2010<-subset(dat, dat$y==2010)
+stargazer(dat.2010, type='text')
 # dat.2011<-subset(dat, dat$y==2011)
 # stargazer(dat.2011, type='text')
 # dat.2012<-subset(dat, dat$y==2012)
