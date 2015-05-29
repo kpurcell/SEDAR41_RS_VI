@@ -15,7 +15,7 @@ library(stargazer)
 
 
 # Read in Red Snapper Data
-raw=read.csv("C:\\Users\\Kevin.Purcell\\Documents\\GitHub\\SEDAR41_RS_VI\\data\\redsnapper_SEDAR41_2015.csv")
+raw=read.csv("C:\\Users\\Kevin.Purcell\\Documents\\GitHub\\SEDAR41_RS_VI\\data\\redsnapper_SEDAR41_2015v2.csv")
 names(raw)
 str(raw)
 
@@ -73,8 +73,8 @@ summary(rs$Biotic_Density_Cat)
 #rename startTime                   # Left from Lews code base IDK
 
 # make sum count vector
-rs.frames <- rs[,49:89]
-rs$SumCount <- rowSums(rs.frames)
+# rs.frames <- rs[,49:89]
+# rs$SumCount <- rowSums(rs.frames)
 
 #Eliminate unnecessary columns
 dat <- subset(rs,select=c(SumCount,No.Readable.Frames,Year,Turbidity,Current_Direction,
@@ -84,9 +84,9 @@ dat <- subset(rs,select=c(SumCount,No.Readable.Frames,Year,Turbidity,Current_Dir
 
 # # Build Parameter Table
 # orgnames=names(dat)
-# #rename to short names
-# names(dat)=c('SumCount','frames','y','wc','cd','cm','sc','sr','ss','bd','bt','bh','d','t','lat','temp','tod');head(dat)
-# shortnames=names(dat)
+#rename to short names
+names(dat)=c('SumCount','frames','y','wc','cd','cm','sc','sr','ss','bd','bt','bh','d','t','lat','temp','tod');head(dat)
+shortnames=names(dat)
 # 
 # #create variable descriptions
 # description <- c("Total count (sum of No.Readable.Frames)",
@@ -120,24 +120,18 @@ dat <- subset(rs,select=c(SumCount,No.Readable.Frames,Year,Turbidity,Current_Dir
 stargazer(dat, type='text')
 dat.2010<-subset(dat, dat$y==2010)
 stargazer(dat.2010, type='text')
-# dat.2011<-subset(dat, dat$y==2011)
-# stargazer(dat.2011, type='text')
-# dat.2012<-subset(dat, dat$y==2012)
-# stargazer(dat.2012, type='text')
-# dat.2013<-subset(dat, dat$y==2013)
-# stargazer(dat.2013, type='text')
-# summaryBy(SumCount~y,data=dat,FUN=length)
+dat.2011<-subset(dat, dat$y==2011)
+stargazer(dat.2011, type='text')
+dat.2012<-subset(dat, dat$y==2012)
+stargazer(dat.2012, type='text')
+dat.2013<-subset(dat, dat$y==2013)
+stargazer(dat.2013, type='text')
+summaryBy(SumCount~y,data=dat,FUN=length)
 #rescale frames
 #dat$frames=dat$frames/41
 #dat$frames=log(dat$frames)
 
 
-```
-
-
-
-
-```{r echo=FALSE, warnings=FALSE, error=FALSE, fig.align='center'}
 # Figure for original continus variable distributions
 par(mfrow=c(2,2))
 #depth
@@ -153,7 +147,7 @@ hist(dat$t,breaks=seq(110,305,by=5),
      xlab="Julian Day",
      main="Annual Sampling Distribution")
 #water temperature (temp)
-hist(dat$temp,breaks=seq(12.25,29.25,by=0.25),
+hist(dat$temp,breaks=seq(12,30, by=0.25),
      xlab="Temperature (C)",
      main="Temperature Distribution")
 
@@ -278,24 +272,12 @@ plot.design(SumCount~d + t + lat + temp ,data=dat)
 
 
 names(dat)
-```
 
 
-# Current variables in dat
-
-```
->[1] "SumCount" "frames"   "y"        "wc"       "cd"      
->[6] "cm"       "sc"       "sr"       "ss"       "bd"      
->[11] "bt"       "bh"       "d"        "t"        "lat"     
->[16] "temp"     "tod"  
-```
-
-
-**So this bit evaluates the ZIP versus the ZINB **
+# So this bit evaluates the ZIP versus the ZINB **
   
-  The ZINB is clearly preferred in the likelihood ratio test and fits the data better.  But you can see that neither model fit the data particularly well.
+#The ZINB is clearly preferred in the likelihood ratio test and fits the data better.  But you can see that neither model fit the data particularly well.
 
-```{r ZIP-ZINB, echo=T,message=T, warning=T, results='hide'}
 
 zipform=formula(SumCount~ y + wc + cd + sc + bd + d + t + lat + temp |y + wc + cd + sc + bd + d + t + lat + temp )
 #zipform=formula(SumCount~ y + wc + cd + sc + bd + d + t + lat + temp |y  )
@@ -309,13 +291,10 @@ nbmod=zeroinfl(nbform,  dist = "negbin", link = "logit",data=dat);summary(nbmod)
 
 lrtest(zipmod,nbmod)
 
-```
 
 
-The likelihood ratio test showes significant differences between the error structure of both model formlations ($\chi^{2}$ = 9521.5, *df*=1, *p*=<0.001).  The log likelihood ob the ZINB model (-3752.6) was considerably lower than that of the ZIP model (-8513.3) and therefore the ZINB modeling framework is a better options moving forward.
 
-
-```{r, echo=FALSE,warning=TRUE,error=TRUE, results='asis'}
+#```{r, echo=FALSE,warning=TRUE,error=TRUE, results='asis'}
 # stargazer(zipmod,nbmod, type="html", title="Zero-Inflated Poisson versus Negative Binomial Models",
 #           align=TRUE)
 # stargazer(zipmod,nbmod, type="text", 
@@ -332,11 +311,9 @@ lines(seq(0.5,max(dat$SumCount),by=1),d$counts, col="blue",type='b')
 hist(dat$SumCount,breaks=0:max(dat$SumCount),freq=T,right=TRUE,xlab='SumCount', main='ZINB',ylim=c(0,50),xlim=c(0,60))  
 d2=hist(predict(nbmod),breaks=0:max(dat$SumCount),plot=FALSE)
 lines(seq(0.5,max(dat$SumCount),by=1),d2$counts, col="blue",type='b')   
-```
 
 
 
-```{r, echo=FALSE,warning=TRUE,error=TRUE}
 ## DIAGNOSTIC PLOTS
 #windows(width=8,height=6,record=T)
 resids=residuals(zipmod)
@@ -384,10 +361,8 @@ plot(dat$SumCount,fitted(nbmod))
 points(dat$SumCount,fitted(zipmod),col='red',pch=19)
 
 
-```
 
-
-**So this bit allows variable selection within the ZINB**
+# So this bit allows variable selection within the ZINB**
   
   ```{r ZINB VarSel, echo=F,message=T, warning=T, cache=TRUE, results='hide'}
 #NULL formula
