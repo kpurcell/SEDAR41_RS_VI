@@ -364,51 +364,51 @@ points(dat$SumCount,fitted(zipmod),col='red',pch=19)
 
 # So this bit allows variable selection within the ZINB**
   
-  ```{r ZINB VarSel, echo=F,message=T, warning=T, cache=TRUE, results='hide'}
-#NULL formula
+#NULL formula Nbmod
 #nbform=formula(SumCount~ y + wc + cd + sc + bd + d + t + lat + temp |y + wc + cd + sc + bd + d + t + lat + temp )
 
-###Remove water clarity and current variables from mean
+###Remove water clarity 
 nbform1=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + wc + cd + sc + bd + d + t + lat + temp)
 #nbform1=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |1.)
 nbmod1=zeroinfl(nbform1,  dist = "negbin", link = "logit",data=dat);summary(nbmod1)
 
+###Remove cd 
 nbform2=formula(SumCount~ y  + wc + sc + bd + d + t + lat + temp |y + wc + cd + sc + bd + d + t + lat + temp)
 #nbform2=formula(SumCount~ y  + wc + sc + bd + d + t + lat + temp |1.)
 nbmod2=zeroinfl(nbform2,  dist = "negbin", link = "logit",data=dat);summary(nbmod2)
 
-###Remove benthic variables from mean
+###Remove sc
 nbform3=formula(SumCount~ y + wc + cd + bd + d + t + lat + temp |y + wc + cd + sc + bd + d + t + lat + temp )
 #nbform3=formula(SumCount~ y + wc + cd + bd + d + t + lat + temp |1.)
 nbmod3=zeroinfl(nbform3,  dist = "negbin", link = "logit",data=dat);summary(nbmod3)
 
+###Remove bd
 nbform4=formula(SumCount~ y + wc + cd + sc + d + t + lat + temp |y + wc + cd + sc + bd + d + t + lat + temp )
 #nbform4=formula(SumCount~ y + wc + cd + sc + d + t + lat + temp |1.)
 nbmod4=zeroinfl(nbform4,  dist = "negbin", link = "logit",data=dat);summary(nbmod4)
 
-###Remove depth from mean
+###Remove d
 nbform5=formula(SumCount~ y + wc + cd + sc + bd + t + lat + temp |y + wc + cd + sc + bd + d + t + lat + temp)
 #nbform5=formula(SumCount~ y + wc + cd + sc + bd + t + lat + temp |1.)
 nbmod5=zeroinfl(nbform5,  dist = "negbin", link = "logit",data=dat);summary(nbmod5)
 
-#### Remove Season From mean 
+#### Remove t
 nbform6=formula(SumCount~ y + wc + cd + sc + bd + d + lat + temp |y + wc + cd + sc + bd + d + t + lat + temp)
 #nbform6=formula(SumCount~ y + wc + cd + sc + bd + d + lat + temp |1.)
 nbmod6=zeroinfl(nbform6,  dist = "negbin", link = "logit",data=dat);summary(nbmod6)
 
-#### Remove Latitude From mean 
+#### Remove Lat
 nbform7=formula(SumCount~ y + wc + cd + sc + bd + d + t + temp |y + wc + cd + sc + bd + d + t + lat + temp)
 #nbform7=formula(SumCount~ y + wc + cd + sc + bd + d + t + temp |1.)
 nbmod7=zeroinfl(nbform7,  dist = "negbin", link = "logit",data=dat);summary(nbmod7)
 
-#### Remove Temperature From mean 
+#### Remove Temp
 nbform8=formula(SumCount~ y + wc + cd + sc + bd + d + t + lat  |y + wc + cd + sc + bd + d + t + lat + temp )
 #nbform8=formula(SumCount~ y + wc + cd + sc + bd + d + t + lat  |1.)
 nbmod8=zeroinfl(nbform8,  dist = "negbin", link = "logit",data=dat);summary(nbmod8)
 
 #### Drop Year
 nbform9=formula(SumCount~  wc + cd + sc + bd + d + t + lat  |y + wc + cd + sc + bd + d + t + lat + temp )
-
 nbmod9=zeroinfl(nbform9,  dist = "negbin", link = "logit",data=dat);summary(nbmod9)
 
 
