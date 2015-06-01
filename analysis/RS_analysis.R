@@ -167,9 +167,7 @@ hist(dat$d,
      main="Categorized Depth Distribution")
 
 #latitude
-hist(dat$lat,breaks=seq(27,36,by=0.25),
-     main="Latitude Distribution",
-     xlab="Latitude")
+
 
 par(mfrow=c(2,2))
 hist(dat$lat[dat$y=='2010'],breaks=seq(27,36,by=0.25),
@@ -185,6 +183,10 @@ hist(dat$lat[dat$y=='2013'],breaks=seq(27,36,by=0.25),
      xlab="Latitude",
      main="2013 Latitude Distribution")
 
+par(mfrow=c(1,2))
+hist(dat$lat,breaks=seq(27,36,by=0.25),
+     main="Latitude Distribution",
+     xlab="Latitude")
 #summary(dat$lat)
 #temp=cut(dat$lat,breaks=c(27,29.75,31.25,32.75,34,35.25),labels=FALSE)#;temp;table(temp)
 #temp=cut(dat$lat,2,breaks=c(0,as.numeric(summary(dat$lat))[-c(1,4)]),labels=FALSE);temp;table(temp)
@@ -197,6 +199,7 @@ hist(dat$lat,
      main="Categorized Latitude Distribution")
 
 #day of year (t)
+par(mfrow=c(1,2))
 hist(dat$t,breaks=seq(110,305,by=5),
      xlab="Julian Day",
      main="Annual Sampling Distribution")
@@ -210,6 +213,7 @@ hist(dat$t)
 
 
 #water temperature (temp)
+par(mfrow=c(1,2))
 hist(dat$temp,breaks=seq(12.25,29.25,by=0.25),
      xlab="Temperature (C)",
      main="Temperature Distribution")
@@ -224,6 +228,7 @@ hist(dat$temp)  # made into a factor of 1-4
 
 
 #time of day (tod)
+par(mfrow=c(1,2))
 hist(dat$tod,breaks=seq(0.4,0.95,by=0.025),
      xlab="Time of Day",
      main="Time of Day Distribution")
