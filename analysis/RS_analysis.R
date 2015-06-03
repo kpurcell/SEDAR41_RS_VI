@@ -304,12 +304,13 @@ lrtest(zipmod,nbmod)
 #```{r, echo=FALSE,warning=TRUE,error=TRUE, results='asis'}
 # stargazer(zipmod,nbmod, type="html", title="Zero-Inflated Poisson versus Negative Binomial Models",
 #           align=TRUE)
-# stargazer(zipmod,nbmod, type="text", 
-#           title="Zero-Inflated Poisson versus Negative Binomial Models",
-#           align=TRUE,
-#           column.labels=c("ZIP", "ZINB"),
-#           single.row=T,
-#           model.numbers=F)
+stargazer(zipmod,nbmod, type="text", 
+          title="Zero-Inflated Poisson versus Negative Binomial Models",
+          align=TRUE,
+          column.labels=c("ZIP", "ZINB"),
+          single.row=T,
+          model.numbers=F)
+
 par(mfrow=c(1,2))
 hist(dat$SumCount,breaks=0:max(dat$SumCount),freq=T,right=TRUE,xlab='SumCount', main='ZIP',ylim=c(0,50), xlim=c(0,60))  
 d=hist(predict(zipmod),breaks=0:max(dat$SumCount),plot=FALSE)
@@ -420,15 +421,15 @@ nbmod9=zeroinfl(nbform9,  dist = "negbin", link = "logit",data=dat);summary(nbmo
 
 
 
-lr1 <- lrtest(nbmod1,nbmod)
-lr2 <- lrtest(nbmod2,nbmod)
-lr3 <- lrtest(nbmod3,nbmod)
-lr4 <- lrtest(nbmod4,nbmod)
-lr5 <- lrtest(nbmod5,nbmod)
-lr6 <- lrtest(nbmod6,nbmod)
-lr7 <- lrtest(nbmod7,nbmod)
-lr8 <- lrtest(nbmod8,nbmod)
-lr9 <- lrtest(nbmod9,nbmod)
+# lr1 <- lrtest(nbmod1,nbmod)
+# lr2 <- lrtest(nbmod2,nbmod)
+# lr3 <- lrtest(nbmod3,nbmod)
+# lr4 <- lrtest(nbmod4,nbmod)
+# lr5 <- lrtest(nbmod5,nbmod)
+# lr6 <- lrtest(nbmod6,nbmod)
+# lr7 <- lrtest(nbmod7,nbmod)
+# lr8 <- lrtest(nbmod8,nbmod)
+# lr9 <- lrtest(nbmod9,nbmod)
 
 lrtest(nbmod1,nbmod)
 lrtest(nbmod2,nbmod)
@@ -538,28 +539,28 @@ AIC(nbmod)-AIC(nbmod9)
 
 ###Remove cd 
 nbform1a=formula(SumCount~ y  + sc + bd + d + t + lat + temp |y + wc + cd + sc + bd + d + t + lat + temp)
-nbmod1a=zeroinfl(nbform2,  dist = "negbin", link = "logit",data=dat);summary(nbmod1a)
+nbmod1a=zeroinfl(nbform1a,  dist = "negbin", link = "logit",data=dat);summary(nbmod1a)
 ###Remove sc 
 nbform1b=formula(SumCount~ y  + cd + bd + d + t + lat + temp |y + wc + cd + sc + bd + d + t + lat + temp)
-nbmod1b=zeroinfl(nbform2,  dist = "negbin", link = "logit",data=dat);summary(nbmod1b)
+nbmod1b=zeroinfl(nbform1b,  dist = "negbin", link = "logit",data=dat);summary(nbmod1b)
 ###Remove bd 
 nbform1c=formula(SumCount~ y  + cd + sc + d + t + lat + temp |y + wc + cd + sc + bd + d + t + lat + temp)
-nbmod1c=zeroinfl(nbform2,  dist = "negbin", link = "logit",data=dat);summary(nbmod1c)
+nbmod1c=zeroinfl(nbform1c,  dist = "negbin", link = "logit",data=dat);summary(nbmod1c)
 ###Remove d 
 nbform1d=formula(SumCount~ y  + cd + sc + bd + t + lat + temp |y + wc + cd + sc + bd + d + t + lat + temp)
-nbmod1d=zeroinfl(nbform2,  dist = "negbin", link = "logit",data=dat);summary(nbmod1d)
+nbmod1d=zeroinfl(nbform1d,  dist = "negbin", link = "logit",data=dat);summary(nbmod1d)
 ###Remove t 
 nbform1e=formula(SumCount~ y  + cd + sc + bd + d + lat + temp |y + wc + cd + sc + bd + d + t + lat + temp)
-nbmod1e=zeroinfl(nbform2,  dist = "negbin", link = "logit",data=dat);summary(nbmod1e)
+nbmod1e=zeroinfl(nbform1e,  dist = "negbin", link = "logit",data=dat);summary(nbmod1e)
 ###Remove lat 
 nbform1f=formula(SumCount~ y  + cd + sc + bd + d + t + temp |y + wc + cd + sc + bd + d + t + lat + temp)
-nbmod1f=zeroinfl(nbform2,  dist = "negbin", link = "logit",data=dat);summary(nbmod1f)
+nbmod1f=zeroinfl(nbform1f,  dist = "negbin", link = "logit",data=dat);summary(nbmod1f)
 ###Remove temp 
 nbform1g=formula(SumCount~ y  + cd + sc + bd + d + t + lat |y + wc + cd + sc + bd + d + t + lat + temp)
-nbmod1g=zeroinfl(nbform2,  dist = "negbin", link = "logit",data=dat);summary(nbmod1g)
+nbmod1g=zeroinfl(nbform1g,  dist = "negbin", link = "logit",data=dat);summary(nbmod1g)
 ###Remove y 
 nbform1h=formula(SumCount~ cd + sc + bd + d + t + lat + temp |y + wc + cd + sc + bd + d + t + lat + temp)
-nbmod1h=zeroinfl(nbform2,  dist = "negbin", link = "logit",data=dat);summary(nbmod1h)
+nbmod1h=zeroinfl(nbform1h,  dist = "negbin", link = "logit",data=dat);summary(nbmod1h)
 
 lrtest(nbmod1a,nbmod1)
 lrtest(nbmod1b,nbmod1)
@@ -594,38 +595,38 @@ AIC(nbmod1)-AIC(nbmod1h)
 
 ###Remove wc
 nbform1a=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + cd + sc + bd + d + t + lat + temp)
-nbmod1a=zeroinfl(nbform2,  dist = "negbin", link = "logit",data=dat);summary(nbmod1a)
+nbmod1a=zeroinfl(nbform1a,  dist = "negbin", link = "logit",data=dat);summary(nbmod1a)
 ###Remove cd 
 nbform1b=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + wc + sc + bd + d + t + lat + temp)
-nbmod1b=zeroinfl(nbform2,  dist = "negbin", link = "logit",data=dat);summary(nbmod1b)
+nbmod1b=zeroinfl(nbform1b,  dist = "negbin", link = "logit",data=dat);summary(nbmod1b)
 ###Remove sc 
 nbform1c=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + wc + cd + bd + d + t + lat + temp)
-nbmod1c=zeroinfl(nbform2,  dist = "negbin", link = "logit",data=dat);summary(nbmod1c)
+nbmod1c=zeroinfl(nbform1c,  dist = "negbin", link = "logit",data=dat);summary(nbmod1c)
 ###Remove bd 
 nbform1d=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + wc + cd + sc + d + t + lat + temp)
-nbmod1d=zeroinfl(nbform2,  dist = "negbin", link = "logit",data=dat);summary(nbmod1d)
+nbmod1d=zeroinfl(nbform1d,  dist = "negbin", link = "logit",data=dat);summary(nbmod1d)
 ###Remove d 
 nbform1e=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + wc + cd + sc + bd + t + lat + temp)
-nbmod1e=zeroinfl(nbform2,  dist = "negbin", link = "logit",data=dat);summary(nbmod1e)
+nbmod1e=zeroinfl(nbform1e,  dist = "negbin", link = "logit",data=dat);summary(nbmod1e)
 ###Remove t 
 nbform1f=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + wc + cd + sc + bd + d + lat + temp)
-nbmod1f=zeroinfl(nbform2,  dist = "negbin", link = "logit",data=dat);summary(nbmod1f)
+nbmod1f=zeroinfl(nbform1f,  dist = "negbin", link = "logit",data=dat);summary(nbmod1f)
 ###Remove lat 
 nbform1g=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + wc + cd + sc + bd + d + t + temp)
-nbmod1g=zeroinfl(nbform2,  dist = "negbin", link = "logit",data=dat);summary(nbmod1g)
+nbmod1g=zeroinfl(nbform1g,  dist = "negbin", link = "logit",data=dat);summary(nbmod1g)
 ###Remove temp 
 nbform1h=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + wc + cd + sc + bd + d + t + lat )
-nbmod1h=zeroinfl(nbform2,  dist = "negbin", link = "logit",data=dat);summary(nbmod1h)
+nbmod1h=zeroinfl(nbform1h,  dist = "negbin", link = "logit",data=dat);summary(nbmod1h)
 ###Remove y 
 nbform1i=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp | wc + cd + sc + bd + d + t + lat + temp)
-nbmod1i=zeroinfl(nbform2,  dist = "negbin", link = "logit",data=dat);summary(nbmod1i)
+nbmod1i=zeroinfl(nbform1i,  dist = "negbin", link = "logit",data=dat);summary(nbmod1i)
 
 lrtest(nbmod1a,nbmod1)
 lrtest(nbmod1b,nbmod1)
 lrtest(nbmod1c,nbmod1)
 lrtest(nbmod1d,nbmod1)
 lrtest(nbmod1e,nbmod1)
-lrtest(nbmod1g,nbmod1)
+lrtest(nbmod1f,nbmod1)
 lrtest(nbmod1g,nbmod1)
 lrtest(nbmod1h,nbmod1)
 lrtest(nbmod1i,nbmod1)
@@ -647,7 +648,65 @@ AIC(nbmod1)-AIC(nbmod1i)
 
 
 
-# After a round of logistic drops looks like the nbform1 is still the best
+# After a round of logistic drops looks like the nbform1a is  best, so step down to that
+
+### Forth Round ##### 
+# Model nbmod1a is the best performing so stay on it
+# nbform1a=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + cd + sc + bd + d + t + lat + temp)
+
+###Remove cd 
+nbform1a1=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + sc + bd + d + t + lat + temp)
+nbmod1a1=zeroinfl(nbform1a1,  dist = "negbin", link = "logit",data=dat);summary(nbmod1a1)
+###Remove sc
+nbform1a2=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + cd + bd + d + t + lat + temp)
+nbmod1a2=zeroinfl(nbform1a2,  dist = "negbin", link = "logit",data=dat);summary(nbmod1a2)
+###Remove bd 
+nbform1a3=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + cd + sc + d + t + lat + temp)
+nbmod1a3=zeroinfl(nbform1a3,  dist = "negbin", link = "logit",data=dat);summary(nbmod1a3)
+###Remove d 
+nbform1a4=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + cd + sc + bd + t + lat + temp)
+nbmod1a4=zeroinfl(nbform1a4,  dist = "negbin", link = "logit",data=dat);summary(nbmod1a4)
+###Remove t 
+nbform1a5=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + cd + sc + bd + d + lat + temp)
+nbmod1a5=zeroinfl(nbform1a5,  dist = "negbin", link = "logit",data=dat);summary(nbmod1a5)
+###Remove lat 
+nbform1a6=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + cd + sc + bd + d + t +  temp)
+nbmod1a6=zeroinfl(nbform1a6,  dist = "negbin", link = "logit",data=dat);summary(nbmod1a6)
+###Remove temp 
+nbform1a7=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + cd + sc + bd + d + t + lat )
+nbmod1a7=zeroinfl(nbform1a7,  dist = "negbin", link = "logit",data=dat);summary(nbmod1a7)
+###Remove y 
+nbform1a8=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp | cd + sc + bd + d + t + lat + temp)
+nbmod1a8=zeroinfl(nbform1a8,  dist = "negbin", link = "logit",data=dat);summary(nbmod1a8)
+
+lrtest(nbmod1a1,nbmod1a)
+lrtest(nbmod1a2,nbmod1a)
+lrtest(nbmod1a3,nbmod1a)
+lrtest(nbmod1a4,nbmod1a)
+lrtest(nbmod1a5,nbmod1a)
+lrtest(nbmod1a6,nbmod1a)
+lrtest(nbmod1a7,nbmod1a)
+lrtest(nbmod1a8,nbmod1a)
+
+
+
+AIC(nbmod1a, nbmod1a1, nbmod1a2, nbmod1a3, nbmod1a4,
+    nbmod1a5, nbmod1a6, nbmod1a7, nbmod1a8)
+
+
+AIC(nbmod1a)-AIC(nbmod1a)
+AIC(nbmod1a)-AIC(nbmod1b)
+AIC(nbmod1a)-AIC(nbmod1c)
+AIC(nbmod1a)-AIC(nbmod1d)
+AIC(nbmod1a)-AIC(nbmod1e)
+AIC(nbmod1a)-AIC(nbmod1f)
+AIC(nbmod1a)-AIC(nbmod1g)
+AIC(nbmod1a)-AIC(nbmod1h)
+AIC(nbmod1a)-AIC(nbmod1i)
+
+
+
+
 
 
 nbbest=nbmod1
