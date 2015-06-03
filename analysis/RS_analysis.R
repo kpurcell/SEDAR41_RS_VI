@@ -705,7 +705,56 @@ AIC(nbmod1a)-AIC(nbmod1h)
 AIC(nbmod1a)-AIC(nbmod1i)
 
 
+# After a round 4 of logistic drops looks like the nbform1a5 is  best, so step down to that
+### Fifth Round ##### 
+# Model nbmod1a is the best performing so stay on it
+# nbform1a5=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + cd + sc + bd + d + lat + temp)
 
+###Remove cd 
+nbform1a5a=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + sc + bd + d + lat + temp)
+nbmod1a5a=zeroinfl(nbform1a5a,  dist = "negbin", link = "logit",data=dat);summary(nbmod1a5a)
+###Remove sc 
+nbform1a5b=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + cd + bd + d + lat + temp)
+nbmod1a5b=zeroinfl(nbform1a5b,  dist = "negbin", link = "logit",data=dat);summary(nbmod1a5b)
+###Remove bd 
+nbform1a5c=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + cd + sc + d + lat + temp)
+nbmod1a5c=zeroinfl(nbform1a5c,  dist = "negbin", link = "logit",data=dat);summary(nbmod1a5c)
+###Remove d 
+nbform1a5d=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + cd + sc + bd + lat + temp)
+nbmod1a5d=zeroinfl(nbform1a5d,  dist = "negbin", link = "logit",data=dat);summary(nbmod1a5d)
+###Remove lat 
+nbform1a5e=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + cd + sc + bd + d + temp)
+nbmod1a5e=zeroinfl(nbform1a5e,  dist = "negbin", link = "logit",data=dat);summary(nbmod1a5e)
+###Remove temp 
+nbform1a5f=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + cd + sc + bd + d + lat )
+nbmod1a5f=zeroinfl(nbform1a5f,  dist = "negbin", link = "logit",data=dat);summary(nbmod1a5f)
+###Remove y 
+nbform1a5g=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |cd + sc + bd + d + lat + temp)
+nbmod1a5g=zeroinfl(nbform1a5g,  dist = "negbin", link = "logit",data=dat);summary(nbmod1a5g)
+
+lrtest(nbmod1a5a,nbmod1a5)
+lrtest(nbmod1a5b,nbmod1a5)
+lrtest(nbmod1a5c,nbmod1a5)
+lrtest(nbmod1a5d,nbmod1a5)
+lrtest(nbmod1a5e,nbmod1a5)
+lrtest(nbmod1a5f,nbmod1a5)
+lrtest(nbmod1a5g,nbmod1a5)
+lrtest(nbmod1a5h,nbmod1a5)
+
+
+
+AIC(nbmod1a5, nbmod1a5a, nbmod1a5b, nbmod1a5c, nbmod1a5d,
+    nbmod1a5e, nbmod1a5f, nbmod1a5g, nbmod1a5h)
+
+
+AIC(nbmod1a5)-AIC(nbmod1a5a)
+AIC(nbmod1a5)-AIC(nbmod1a5b)
+AIC(nbmod1a5)-AIC(nbmod1a5c)
+AIC(nbmod1a5)-AIC(nbmod1a5d)
+AIC(nbmod1a5)-AIC(nbmod1a5e)
+AIC(nbmod1a5)-AIC(nbmod1a5f)
+AIC(nbmod1a5)-AIC(nbmod1a5g)
+AIC(nbmod1a5)-AIC(nbmod1a5h)
 
 
 
