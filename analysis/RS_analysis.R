@@ -739,13 +739,9 @@ lrtest(nbmod1a5d,nbmod1a5)
 lrtest(nbmod1a5e,nbmod1a5)
 lrtest(nbmod1a5f,nbmod1a5)
 lrtest(nbmod1a5g,nbmod1a5)
-lrtest(nbmod1a5h,nbmod1a5)
-
-
 
 AIC(nbmod1a5, nbmod1a5a, nbmod1a5b, nbmod1a5c, nbmod1a5d,
-    nbmod1a5e, nbmod1a5f, nbmod1a5g, nbmod1a5h)
-
+    nbmod1a5e, nbmod1a5f, nbmod1a5g)
 
 AIC(nbmod1a5)-AIC(nbmod1a5a)
 AIC(nbmod1a5)-AIC(nbmod1a5b)
@@ -754,12 +750,12 @@ AIC(nbmod1a5)-AIC(nbmod1a5d)
 AIC(nbmod1a5)-AIC(nbmod1a5e)
 AIC(nbmod1a5)-AIC(nbmod1a5f)
 AIC(nbmod1a5)-AIC(nbmod1a5g)
-AIC(nbmod1a5)-AIC(nbmod1a5h)
 
 
 
-nbbest=nbmod1
-# nbform1=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + wc + cd + sc + bd + d + t + lat + temp)
+
+nbbest=nbmod1a5
+# nbform1a5=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + cd + sc + bd + d + lat + temp)
 
 resids=residuals(nbbest, type="pearson")
 
@@ -777,7 +773,7 @@ plot(dat$t,resids,xlab="Season",main="Residuals (nbbest)")
 plot(dat$lat,resids,xlab="Latitude",main="Residuals (nbbest)")
 
 par(mfrow=c(3,2))
-plot(dat$wc,resids,xlab="Water Clarity",main="Residuals (nbbest)")
+#plot(dat$wc,resids,xlab="Water Clarity",main="Residuals (nbbest)")
 plot(dat$cd,resids,xlab="Current Direction",main="Residuals (nbbest)")
 plot(dat$sc,resids,xlab="Substrate Composition",main="Residuals (nbbest)")
 plot(dat$bd,resids,xlab="Biotic Diversity",main="Residuals (nbbest)")
@@ -817,11 +813,11 @@ lines(seq(0.5,max(dat$SumCount),by=1),d3$counts, col="blue",type='b')
 #lines(seq(0.5,max(dat$SumCount),by=1),d2$counts, col="red",type='l')      
 
 # final model form for FYI
-# nbform1=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + wc + cd + sc + bd + d + t + lat + temp)
+# nbform1a5=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + cd + sc + bd + d + lat + temp)
 
 # Generating a data frame of all values
 new.dat=expand.grid(y=levels(dat$y),
-                    wc=levels(dat$wc),
+                    #wc=levels(dat$wc),
                     #cm=levels(dat$cm),
                     cd=levels(dat$cd),
                     sc=levels(dat$sc),
@@ -864,10 +860,10 @@ lines(resvec,type='b',ylim=c(0,4),lty=5)
 #set up data objects and specify number of bootstrap replications
 ptm <- proc.time()
 boots=5
-# nbform1=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + wc + cd + sc + bd + d + t + lat + temp)
+# nbform1a5=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + cd + sc + bd + d + lat + temp)
 
 names(dat)
-org.dat=dat[,c(1,3,4,5,7,10,13,14,15,16)];head(org.dat)
+org.dat=dat[,c(1,3,5,7,10,13,14,15,16)];head(org.dat)
 boot.dat=org.dat
 numyrs=length(levels(org.dat$y));numyrs
 index.boot=matrix(NA,nrow=boots,ncol=numyrs)
@@ -894,11 +890,11 @@ for(boot in 1:boots){
   #for(i in 1:length(dat.2010$SumCount)){cal.SumCount[i]=rbinom(1,dat.2010$SumCount[i],cal.prop)}#;plot(cal.SumCount,dat.2010$SumCount,xlim=c(0,250),ylim=c(0,250))
   #  boot.dat[boot.dat$y==2010,1]= cal.SumCount 
   
-  # nbform1=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + wc + cd + sc + bd + d + t + lat + temp)
+  # nbform1a5=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + cd + sc + bd + d + lat + temp)
   #make a function to compute the index and return either a valid index or NA conditional on if the model converges
   getindex=function(){
     #define and fit model for current replicate.  Use the "try" function so that can continue to run if model does not converge on a particular replication  
-    f2 =formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + wc + cd + sc + bd + d + t + lat + temp)
+    f2 =formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + cd + sc + bd + d + lat + temp)
     Nb2 = try(zeroinfl(f2, dist = "negbin", link = "logit", data = boot.dat)); Nb2
     
     #see if model converged, if it did, return the mean year effect over all covariate combinations
@@ -906,7 +902,7 @@ for(boot in 1:boots){
     if (class(Nb2) != "try-error"){
       #Predict the year effect (index) by predicting for each covariate level and compute the mean
       new.dat=expand.grid(y=levels(dat$y),
-                          wc=levels(dat$wc),
+                          #wc=levels(dat$wc),
                           #cm=levels(dat$cm),
                           cd=levels(dat$cd),
                           sc=levels(dat$sc),
@@ -989,12 +985,12 @@ nomcpue.std <- as.data.frame(nomcpue.std)
 matplot(t(cI),type='l',ylim=c(0,2.5),xaxt="n",col=c(1,2,1),lty=c(3,1,3),lwd=c(1,2,1),ylab='Relative CPUE')
 axis(1,at=1:4,labels=2010:2013)
 index = resvec/mean(resvec)
-lines(index,type='l',ylim=c(0,2),col='green',lwd=2)
-lines(nomcpue.std$nomcpue.std, type='l', col='blue', lty=2,lwd=2)
+#lines(index,type='l',ylim=c(0,2),col='green',lwd=2)
+lines(nomcpue.std$nomcpue.std, type='b', col='blue', pch=20, lty=1,lwd=1)
 #approxgam=c(.37,.11,.21)
 #lines(approxgam/mean(approxgam),lwd=2,col='blue')
 legend('topright',legend=c('Standardized Index','Bootstrap CI','Nominal'),
-       lty=c(1,3,1),col=c('red','black','blue'),lwd=c(2,1,2), bty="n")
+       lty=c(1,3,1),col=c('red','black','blue'),lwd=c(2,1,1), bty="n")
 
 
 sessionInfo()
