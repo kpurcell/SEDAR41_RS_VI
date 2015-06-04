@@ -859,7 +859,7 @@ lines(resvec,type='b',ylim=c(0,4),lty=5)
 
 #set up data objects and specify number of bootstrap replications
 ptm <- proc.time()
-boots=5
+boots=500
 # nbform1a5=formula(SumCount~ y  + cd + sc + bd + d + t + lat + temp |y + cd + sc + bd + d + lat + temp)
 
 names(dat)
